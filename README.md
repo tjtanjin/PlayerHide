@@ -17,8 +17,7 @@ PlayerHide is a spigot plugin that provides the simple functionality of toggling
 visibility on a minecraft server. The primary motivation behind this was for use in events such 
 as parkour and mazes, where player visibility can disrupt the player experience. This plugin has 
 also found use in PvE situations where players hope to take on mobs without the hitboxes of 
-other players getting in the way. The spigot link to download the plugin can be found [here]
-(https://www.spigotmc.org/resources/playerhide.105677/).
+other players getting in the way. The spigot link to download the plugin can be found [here](https://www.spigotmc.org/resources/playerhide.105677/).
 
 ### Features
 PlayerHide currently supports the following features:
