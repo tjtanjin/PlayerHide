@@ -1,0 +1,10 @@
+name: PlayerHide
+version: ${project.version}
+main: tk.taverncraft.playerhide.Main
+author: tjtanjin - FrozenFever
+description: A simple plugin for hiding players
+api-version: 1.19
+commands:
+  playerhide:
+    description: Base command for the plugin
+    aliases: [phide]

@@ -1,0 +1,38 @@
+#####################################################################################
+#                                                                                   #
+#                               General Configurations                              #
+#                                                                                   #
+#####################################################################################
+
+# language file to use (feel free to add your own lang file within the lang folder of the plugin and put the name here)
+lang-file: 'en.yml'
+
+# if true, will hide all players on join
+hide-on-join: true
+
+# particles can be used from https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
+# set to "NONE" for complete invisibility
+particles: "NONE"
+# number of particles shown, does nothing if above value is "NONE"
+particle-count: 3
+
+#####################################################################################
+#                                                                                   #
+#                                 Item Configurations                               #
+#                                                                                   #
+#####################################################################################
+
+# provide item for player to toggle visibility on join
+item-on-join: true
+
+# allow players to drop the item
+allow-drop: false
+
+# material, name, slot of item and whether item should be enchanted
+item:
+  name: "&bPlayerHide Stick"
+  slot: 0
+  material: STICK
+  enchanted: true
+  lore:
+    - "&6Right click &ato toggle!"
