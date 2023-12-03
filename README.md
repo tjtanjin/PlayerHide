@@ -3,6 +3,10 @@
 </p>
 <h1 align="center">PlayerHide</h1>
 
+<p align="center">
+  <a href="https://github.com/tjtanjin/PlayerHide/actions"> <img src="https://github.com/tjtanjin/PlayerHide/actions/workflows/maven.yml/badge.svg" /> </a>
+</p>
+
 ## Table of Contents
 * [Introduction](#introduction)
 * [Features](#features)
