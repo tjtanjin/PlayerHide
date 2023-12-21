@@ -13,7 +13,7 @@ hide-on-join: true
 # particles can be used from https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
 # set to "NONE" for complete invisibility
 particles: "NONE"
-# number of particles shown, does nothing if above value is "NONE"
+# number of particles shown, does nothing if particles is set to "NONE"
 particle-count: 3
 
 #####################################################################################

@@ -58,7 +58,7 @@ public class Main extends JavaPlugin {
             this.playerManager = new PlayerManager(this);
         } catch (NullPointerException e) {
             this.getLogger().info(e.getMessage());
-            this.getLogger().info("[Playerhide] Is your config.yml " +
+            this.getLogger().info("[PlayerHide] Is your config.yml " +
                 "updated/set up correctly?");
             getServer().getPluginManager().disablePlugin(this);
         }
