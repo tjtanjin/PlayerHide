@@ -8,3 +8,16 @@ commands:
   playerhide:
     description: Base command for the plugin
     aliases: [phide]
+permissions:
+  phide.help:
+    description: View the list of commands
+    default: op
+  phide.toggle.self:
+    description: Toggle self visibility of other players
+    default: op
+  phide.toggle.others:
+    description: Toggle a specific player's visibility of other players
+    default: op
+  phide.reload:
+    description: Reload the plugin
+    default: op

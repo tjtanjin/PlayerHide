@@ -2,6 +2,8 @@
 prefix: '&6[&bPlayerHide&6] '
 
 # messages that support placeholders have them listed as comments on the right of the message
+# hexadeciaml color codes are also supported (e.g. #ff0000, #00ff00)
+# if you need # in your string but not as a color code, escape it with \ (e.g. \#hashtag)
 
 # general messages
 reload-success: '&bPlayerHide &ahas been reloaded!'
@@ -20,8 +22,8 @@ toggle-others-fail: '&cFailed to toggle visibility for &b%player%&c!' # %player%
 # format for help command
 help-header: '&b----- &6Commands &b-----'
 help-body: |
-  &a/phide help &b- view a list of help options
-  &a/phide toggle &b- toggle visibility for self
-  &a/phide toggle <name> &b- toggle visibility for others
-  &a/phide reload &b- reloads the plugin
+  &a/phide help &b- view the list of commands
+  &a/phide toggle &b- toggle self visibility of other players
+  &a/phide toggle <name> &b- toggle a specific player's visibility of other players
+  &a/phide reload &b- reload the plugin
 help-footer: '&6Type &e/phide help %page% &6to view next page' # %page% is the next page number
