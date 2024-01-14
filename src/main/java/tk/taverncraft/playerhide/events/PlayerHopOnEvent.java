@@ -54,7 +54,7 @@ public class PlayerHopOnEvent implements Listener {
 
         final ItemMeta meta = item.getItemMeta();
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        String displayName = this.main.getConfig().getString("item.name" + "§g§c§u§v§r§r","&bPlayerHide Stick");
+        String displayName = this.main.getConfig().getString("item.name","&bPlayerHide Stick") + "§g§c§u§v§r§r";
         meta.setDisplayName(EventHelper.parseWithColours(displayName));
 
         List<String> lore = this.main.getConfig().getStringList("item.lore");

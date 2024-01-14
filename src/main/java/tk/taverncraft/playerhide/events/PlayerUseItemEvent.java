@@ -44,7 +44,7 @@ public class PlayerUseItemEvent implements Listener {
         }
 
         if (!EventHelper.isPlayerHideItem(meta.getDisplayName(), this.main.getConfig().getString(
-            "item.name" + "§g§c§u§v§r§r", "&bPlayerHide Stick"))) {
+            "item.name", "&bPlayerHide Stick") + "§g§c§u§v§r§r")) {
             return;
         }
 
