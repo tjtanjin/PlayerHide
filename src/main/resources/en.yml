@@ -19,6 +19,11 @@ toggle-others-success: '&aVisibility for &b%player% &ahas been toggled to: &b%st
 toggle-self-fail: '&cFailed to toggle visibility!' # %player%
 toggle-others-fail: '&cFailed to toggle visibility for &b%player%&c!' # %player%
 
+# state messages
+# the keyword used in %state% placeholders in above toggle messages in case you wish to use other terms
+visible-state: 'VISIBLE'
+hidden-state: 'HIDDEN'
+
 # format for help command
 help-header: '&b----- &6Commands &b-----'
 help-body: |

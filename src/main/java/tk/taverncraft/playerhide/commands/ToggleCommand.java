@@ -48,7 +48,8 @@ public class ToggleCommand {
         if (playerState != null) {
             MessageManager.sendMessage(sender, "toggle-self-success",
                 new String[]{"%player%", "%state%"},
-                new String[]{sender.getName(), String.valueOf(playerState)});
+                new String[]{sender.getName(),
+                    main.getPlayerManager().getParsedPlayerState((Player) sender)});
         } else {
             MessageManager.sendMessage(sender, "toggle-self-fail",
                 new String[]{"%player%"},
@@ -79,7 +80,8 @@ public class ToggleCommand {
         if (playerState != null) {
             MessageManager.sendMessage(sender, "toggle-others-success",
                 new String[]{"%player%", "%state%"},
-                new String[]{playerName, String.valueOf(playerState)});
+                new String[]{playerName,
+                    main.getPlayerManager().getParsedPlayerState(Bukkit.getPlayer(playerName))});
         } else {
             MessageManager.sendMessage(sender, "toggle-others-fail",
                 new String[]{"%player%"},

@@ -2,6 +2,7 @@ package tk.taverncraft.playerhide.player;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -12,6 +13,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import tk.taverncraft.playerhide.Main;
+import tk.taverncraft.playerhide.utils.MessageManager;
 
 /**
  * In charge of handling players affected by player hide.
@@ -202,6 +204,25 @@ public class PlayerManager {
                     location.subtract(0,0.7, 0);
                 }
             }
+        }
+    }
+
+    /**
+     * Retrieves the parsed player state for showing to players.
+     *
+     * @param player player to get parsed state for
+     */
+    public String getParsedPlayerState(Player player) {
+        UUID uuid = player.getUniqueId();
+        PlayerState playerState = playerStates.get(uuid);
+        if (playerState == PlayerState.HIDDEN) {
+            return Optional.ofNullable(
+                MessageManager.getPlainMessage("hidden-state")).orElse("HIDDEN");
+        } else if (playerState == PlayerState.VISIBLE) {
+            return Optional.ofNullable(
+                MessageManager.getPlainMessage("visible-state")).orElse("VISIBLE");
+        } else {
+            return null;
         }
     }
 }

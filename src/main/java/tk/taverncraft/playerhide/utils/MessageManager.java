@@ -38,7 +38,7 @@ public class MessageManager {
      * @param messageKey key to get message with
      */
     public static void sendMessage(CommandSender sender, String messageKey) {
-        String message = getMessage(messageKey);
+        String message = getPrefixedMessage(messageKey);
         sender.sendMessage(message);
     }
 
@@ -51,7 +51,7 @@ public class MessageManager {
      * @param values placeholder values
      */
     public static void sendMessage(CommandSender sender, String messageKey, String[] keys, String[] values) {
-        String message = getMessage(messageKey);
+        String message = getPrefixedMessage(messageKey);
         for (int i = 0; i < keys.length; i++) {
             message = message.replaceAll(keys[i], values[i]);
         }
@@ -59,11 +59,20 @@ public class MessageManager {
     }
 
     /**
-     * Retrieves message value given the message key.
+     * Retrieves plain message value given the message key.
      *
      * @param messageKey key to retrieve message with
      */
-    public static String getMessage(String messageKey) {
+    public static String getPlainMessage(String messageKey) {
+        return messageKeysMap.get(messageKey);
+    }
+
+    /**
+     * Retrieves message value given the message key and appends plugin prefix.
+     *
+     * @param messageKey key to retrieve message with
+     */
+    public static String getPrefixedMessage(String messageKey) {
         String prefix = messageKeysMap.get("prefix");
         return prefix.substring(0, prefix.length() - 1) + messageKeysMap.get(messageKey);
     }
@@ -78,7 +87,7 @@ public class MessageManager {
         int linesPerPage = 12;
         int positionsPerPage = 10;
 
-        String header = getMessage("help-header");
+        String header = getPrefixedMessage("help-header");
         String footer = messageKeysMap.get("help-footer");
         String[] messageBody = messageKeysMap.get("help-body").split("\n", -1);
         StringBuilder message = new StringBuilder(header + "\n");

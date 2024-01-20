@@ -53,7 +53,8 @@ public class PlayerUseItemEvent implements Listener {
             if (playerState != null) {
                 MessageManager.sendMessage(player, "toggle-self-success",
                     new String[]{"%player%", "%state%"},
-                    new String[]{player.getName(), String.valueOf(playerState)});
+                    new String[]{player.getName(),
+                        main.getPlayerManager().getParsedPlayerState(player)});
             } else {
                 MessageManager.sendMessage(player, "toggle-self-fail",
                     new String[]{"%player%"},
