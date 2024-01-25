@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -37,6 +38,10 @@ public class PlayerUseItemEvent implements Listener {
             return;
         }
 
+        if (e.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+
         ItemMeta meta = item.getItemMeta();
 
         if (!meta.hasDisplayName()) {
@@ -49,6 +54,11 @@ public class PlayerUseItemEvent implements Listener {
         }
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (main.getWorldGuardManager() != null && !main.getWorldGuardManager().checkApplyPlayerHide(player)) {
+                MessageManager.sendMessage(player, "toggle-self-region-denied");
+                return;
+            }
+
             PlayerState playerState = this.main.getPlayerManager().togglePlayer(player);
             if (playerState != null) {
                 MessageManager.sendMessage(player, "toggle-self-success",

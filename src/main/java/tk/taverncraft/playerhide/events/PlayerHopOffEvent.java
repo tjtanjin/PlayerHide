@@ -23,6 +23,7 @@ public class PlayerHopOffEvent implements Listener {
     @EventHandler
     private void onPlayerLeaveServer(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        this.main.getPlayerManager().removePlayer(player);
+        main.getPlayerManager().removePlayer(player);
+        main.getPlayerManager().removePlayerFromExemption(player);
     }
 }

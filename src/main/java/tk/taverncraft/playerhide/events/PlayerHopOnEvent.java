@@ -34,7 +34,9 @@ public class PlayerHopOnEvent implements Listener {
     private void onPlayerJoinServer(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         PlayerManager playerManager = this.main.getPlayerManager();
-        playerManager.togglePlayer(player);
+        if (main.getWorldGuardManager() == null || main.getWorldGuardManager().checkApplyPlayerHide(player)) {
+            playerManager.togglePlayer(player);
+        }
 
         playerManager.hidePlayerForThoseInHiddenState(player);
 

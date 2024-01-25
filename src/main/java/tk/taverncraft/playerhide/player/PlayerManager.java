@@ -1,6 +1,8 @@
 package tk.taverncraft.playerhide.player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -21,6 +23,7 @@ import tk.taverncraft.playerhide.utils.MessageManager;
 public class PlayerManager {
     private Main main;
     private HashMap<UUID, PlayerState> playerStates = new HashMap<>();
+    private List<UUID> exemptedPlayers = new ArrayList<>();
     private PlayerState defaultPlayerState;
     private String particles = "NONE";
     private BukkitTask spawnParticlesTask = null;
@@ -50,7 +53,7 @@ public class PlayerManager {
         }
         this.particles = main.getConfig().getString("particles", "NONE");
 
-        if (this.particles != "NONE") {
+        if (!this.particles.equals("NONE")) {
             try {
                 Particle particle = Particle.valueOf(this.particles);
                 runSpawnParticlesTask(particle);
@@ -108,7 +111,7 @@ public class PlayerManager {
 
     /**
      * Called on player joins to ensure they are hidden for existing players with
-     * visibility state set to HIDDEN.
+     * visibility state set to HIDDEN and that are not exempted.
      *
      * @param player player who just joined
      */
@@ -116,7 +119,7 @@ public class PlayerManager {
         for (Map.Entry<UUID, PlayerState> set : this.playerStates.entrySet()) {
             Player p = Bukkit.getPlayer(set.getKey());
             PlayerState playerState = set.getValue();
-            if (playerState == PlayerState.HIDDEN) {
+            if (playerState == PlayerState.HIDDEN && !exemptedPlayers.contains(p.getUniqueId())) {
                 p.hidePlayer(player);
             } else {
                 p.showPlayer(player);
@@ -136,10 +139,6 @@ public class PlayerManager {
                 player.hidePlayer(p);
             }
         }
-
-        if (this.particles == "NONE") {
-            return;
-        }
     }
 
     /**
@@ -153,10 +152,6 @@ public class PlayerManager {
             if (player != p) {
                 player.showPlayer(p);
             }
-        }
-
-        if (this.particles == "NONE") {
-            return;
         }
     }
 
@@ -186,7 +181,8 @@ public class PlayerManager {
             if (pSelf == null) {
                 return;
             }
-            if (this.playerStates.get(pSelf.getUniqueId()) == PlayerState.VISIBLE) {
+            if (this.playerStates.get(pSelf.getUniqueId()) == PlayerState.VISIBLE
+                    || exemptedPlayers.contains(pSelf.getUniqueId())) {
                 continue;
             }
             for (Map.Entry<UUID, PlayerState> set2 : this.playerStates.entrySet()) {
@@ -224,6 +220,36 @@ public class PlayerManager {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Handles player exemption from worldguard region flag.
+     *
+     * @param uuid uuid of player to handle exemption for
+     * @param applyPlayerHide whether to apply or not to apply playerhide (exempt the player)
+     */
+    public void handlePlayerExemption(UUID uuid, boolean applyPlayerHide) {
+        Player player = Bukkit.getPlayer(uuid);
+        if (applyPlayerHide) {
+            exemptedPlayers.remove(uuid);
+            PlayerState currentPlayerState = playerStates.get(uuid);
+            if (currentPlayerState == PlayerState.HIDDEN) {
+                hidePlayers(player);
+                return;
+            }
+        } else {
+            exemptedPlayers.add(uuid);
+        }
+        showPlayers(player);
+    }
+
+    /**
+     * Removes a player from exemption.
+     *
+     * @param player player to remove from exemption
+     */
+    public void removePlayerFromExemption(Player player) {
+        exemptedPlayers.remove(player.getUniqueId());
     }
 }
 

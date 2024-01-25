@@ -48,12 +48,9 @@ public class ReloadCommand {
             // reinitialize manager values
             main.getPlayerManager().initializeValues();
 
-            // reinitialize listeners
-            HandlerList.unregisterAll();
-            main.getServer().getPluginManager().registerEvents(new PlayerHopOnEvent(main), main);
-            main.getServer().getPluginManager().registerEvents(new PlayerHopOffEvent(main), main);
-            main.getServer().getPluginManager().registerEvents(new PlayerThrowItemEvent(main), main);
-            main.getServer().getPluginManager().registerEvents(new PlayerUseItemEvent(main), main);
+            // re-register events
+            main.getEventManager().unregisterEvents();
+            main.getEventManager().registerEvents();
 
             MessageManager.sendMessage(sender, "reload-success");
         } catch (Exception e) {

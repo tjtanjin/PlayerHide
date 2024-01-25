@@ -18,6 +18,8 @@ toggle-self-success: '&aYour visibility of others has been toggled to: &b%state%
 toggle-others-success: '&aVisibility for &b%player% &ahas been toggled to: &b%state%' # %player%, %state%
 toggle-self-fail: '&cFailed to toggle visibility!' # %player%
 toggle-others-fail: '&cFailed to toggle visibility for &b%player%&c!' # %player%
+toggle-self-region-denied: '&cUnable to toggle visibility in current region!'
+toggle-others-region-denied: '&cUnable to toggle visibility due to region &b%player% &cis in!'
 
 # state messages
 # the keyword used in %state% placeholders in above toggle messages in case you wish to use other terms

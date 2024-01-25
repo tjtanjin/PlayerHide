@@ -2,11 +2,13 @@ package tk.taverncraft.playerhide;
 
 import java.util.logging.Logger;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import tk.taverncraft.playerhide.commands.CommandParser;
 import tk.taverncraft.playerhide.commands.CommandTabCompleter;
+import tk.taverncraft.playerhide.events.EventManager;
 import tk.taverncraft.playerhide.events.PlayerHopOffEvent;
 import tk.taverncraft.playerhide.events.PlayerHopOnEvent;
 import tk.taverncraft.playerhide.events.PlayerThrowItemEvent;
@@ -14,6 +16,8 @@ import tk.taverncraft.playerhide.events.PlayerUseItemEvent;
 import tk.taverncraft.playerhide.player.PlayerManager;
 import tk.taverncraft.playerhide.utils.ConfigManager;
 import tk.taverncraft.playerhide.utils.UpdateChecker;
+import tk.taverncraft.playerhide.worldguard.WorldGuardManager;
+import tk.taverncraft.playerhide.worldguard.WorldGuardRegionHandler;
 
 /**
  * The plugin class.
@@ -28,6 +32,16 @@ public class Main extends JavaPlugin {
     // managers
     private ConfigManager configManager;
     private PlayerManager playerManager;
+    private EventManager eventManager;
+    private WorldGuardManager worldGuardManager;
+
+    @Override
+    public void onLoad() {
+        if (Bukkit.getPluginManager().getPlugin("WorldGuard") != null) {
+            this.worldGuardManager = new WorldGuardManager(this);
+            getLogger().info("Successfully integrated with WorldGuard!");
+        }
+    }
 
     @Override
     public void onDisable() {
@@ -50,6 +64,14 @@ public class Main extends JavaPlugin {
         configManager.createConfig();
         configManager.createMessageFile();
 
+        // initialize events
+        this.eventManager = new EventManager(this);
+
+        // initialize worldguard session handler
+        if (worldGuardManager != null) {
+            worldGuardManager.initializeHandler();
+        }
+
         //this.createScheduleConfig();
         this.getCommand("phide").setTabCompleter(new CommandTabCompleter());
         this.getCommand("phide").setExecutor(new CommandParser(this));
@@ -62,11 +84,6 @@ public class Main extends JavaPlugin {
                 "updated/set up correctly?");
             getServer().getPluginManager().disablePlugin(this);
         }
-
-        this.getServer().getPluginManager().registerEvents(new PlayerHopOnEvent(this), this);
-        this.getServer().getPluginManager().registerEvents(new PlayerHopOffEvent(this), this);
-        this.getServer().getPluginManager().registerEvents(new PlayerThrowItemEvent(this), this);
-        this.getServer().getPluginManager().registerEvents(new PlayerUseItemEvent(this), this);
     }
 
     public FileConfiguration getConfig() {
@@ -78,10 +95,18 @@ public class Main extends JavaPlugin {
     }
 
     public ConfigManager getConfigManager() {
-        return configManager;
+        return this.configManager;
     }
 
     public PlayerManager getPlayerManager() {
         return this.playerManager;
+    }
+
+    public EventManager getEventManager() {
+        return this.eventManager;
+    }
+
+    public WorldGuardManager getWorldGuardManager() {
+        return this.worldGuardManager;
     }
 }

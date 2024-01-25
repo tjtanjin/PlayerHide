@@ -44,6 +44,11 @@ public class ToggleCommand {
             return true;
         }
 
+        if (main.getWorldGuardManager() != null && !main.getWorldGuardManager().checkApplyPlayerHide((Player) sender)) {
+            MessageManager.sendMessage(sender, "toggle-self-region-denied");
+            return true;
+        }
+
         PlayerState playerState = this.main.getPlayerManager().togglePlayer((Player) sender);
         if (playerState != null) {
             MessageManager.sendMessage(sender, "toggle-self-success",
@@ -75,6 +80,13 @@ public class ToggleCommand {
         }
 
         String playerName = args[1];
+
+        if (main.getWorldGuardManager() != null && !main.getWorldGuardManager().checkApplyPlayerHide(Bukkit.getPlayer(playerName))) {
+            MessageManager.sendMessage(sender, "toggle-others-region-denied",
+                new String[]{"%player%"},
+                new String[]{playerName});
+            return true;
+        }
 
         PlayerState playerState = this.main.getPlayerManager().togglePlayer(Bukkit.getPlayer(playerName));
         if (playerState != null) {
