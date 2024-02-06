@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import tk.taverncraft.playerhide.commands.CommandParser;
 import tk.taverncraft.playerhide.commands.CommandTabCompleter;
+import tk.taverncraft.playerhide.events.DependencyLoadEvent;
 import tk.taverncraft.playerhide.events.EventManager;
 import tk.taverncraft.playerhide.events.PlayerHopOffEvent;
 import tk.taverncraft.playerhide.events.PlayerHopOnEvent;
@@ -15,6 +16,7 @@ import tk.taverncraft.playerhide.events.PlayerThrowItemEvent;
 import tk.taverncraft.playerhide.events.PlayerUseItemEvent;
 import tk.taverncraft.playerhide.player.PlayerManager;
 import tk.taverncraft.playerhide.utils.ConfigManager;
+import tk.taverncraft.playerhide.utils.PapiManager;
 import tk.taverncraft.playerhide.utils.UpdateChecker;
 import tk.taverncraft.playerhide.worldguard.WorldGuardManager;
 import tk.taverncraft.playerhide.worldguard.WorldGuardRegionHandler;
@@ -83,6 +85,31 @@ public class Main extends JavaPlugin {
             this.getLogger().info("[PlayerHide] Is your config.yml " +
                 "updated/set up correctly?");
             getServer().getPluginManager().disablePlugin(this);
+        }
+
+        if (Bukkit.getVersion().contains("1.8") || Bukkit.getVersion().contains("1.9")
+            || Bukkit.getVersion().contains("1.10") || Bukkit.getVersion().contains("1.11")
+            || Bukkit.getVersion().contains("1.12")) {
+            Bukkit.getScheduler().runTaskLater(this, this::loadDependencies, 1);
+        } else {
+            this.getServer().getPluginManager().registerEvents(new DependencyLoadEvent(this), this);
+        }
+    }
+
+    /**
+     * Loads dependencies.
+     */
+    public void loadDependencies() {
+        checkPlaceholderAPI();
+    }
+
+    /**
+     * Checks if PAPI is present.
+     */
+    private void checkPlaceholderAPI() {
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            getLogger().info(String.format("[%s] - PlaceholderAPI found, integrated with plugin!", getDescription().getName()));
+            new PapiManager(this).register();
         }
     }
 
