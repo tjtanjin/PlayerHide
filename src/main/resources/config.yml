@@ -36,3 +36,12 @@ item:
   enchanted: true
   lore:
     - "&6Right click &ato toggle!"
+
+#####################################################################################
+#                                                                                   #
+#            Section for PAPI placeholders (ignore section if not using)            #
+#                                                                                   #
+#####################################################################################
+
+# currently supports 1 PAPI placeholder as shown below
+# %phide_player_status% - current state of player (defined in en.yml - visible-state/hidden-state)
