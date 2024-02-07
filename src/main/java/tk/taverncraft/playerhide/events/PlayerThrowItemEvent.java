@@ -33,8 +33,7 @@ public class PlayerThrowItemEvent implements Listener {
             return;
         }
 
-        if (!EventHelper.isPlayerHideItem(meta.getDisplayName(), this.main.getConfig().getString(
-            "item.name", "&bPlayerHide Stick") + "§g§c§u§v§r§r")) {
+        if (!EventHelper.isPlayerHideItem(meta.getDisplayName(), this.main)) {
             return;
         }
 

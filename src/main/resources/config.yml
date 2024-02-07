@@ -7,7 +7,7 @@
 # language file to use (feel free to add your own lang file within the lang folder of the plugin and put the name here)
 lang-file: 'en.yml'
 
-# if true, will hide all players on join
+# if true, will hide all players on join (i.e. playerhide toggled on during
 hide-on-join: true
 
 # particles can be used from https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Particle.html
@@ -33,9 +33,20 @@ item:
   name: "&bPlayerHide Stick"
   slot: 0
   material: STICK
+  enchanted: false
+  lore:
+    - "&6Right click &ato toggle on!"
+
+# optional item that is shown when playerhide is toggled on (i.e. players are hidden)
+# if disabled, will only use the item defined above
+item-toggled-on:
+  disabled: false
+  name: "&bPlayerHide Stick"
+  slot: 0
+  material: STICK
   enchanted: true
   lore:
-    - "&6Right click &ato toggle!"
+    - "&6Right click &ato toggle off!"
 
 #####################################################################################
 #                                                                                   #

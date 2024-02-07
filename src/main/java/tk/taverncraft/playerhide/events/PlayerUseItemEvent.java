@@ -1,5 +1,6 @@
 package tk.taverncraft.playerhide.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -28,6 +29,10 @@ public class PlayerUseItemEvent implements Listener {
 
     @EventHandler
     private void onPlayerUseItem(PlayerInteractEvent e) {
+        if (e.getHand() != EquipmentSlot.HAND) {
+            return;
+        }
+
         Player player = e.getPlayer();
         ItemStack item = e.getItem();
         if (item == null) {
@@ -38,22 +43,20 @@ public class PlayerUseItemEvent implements Listener {
             return;
         }
 
-        if (e.getHand() != EquipmentSlot.HAND) {
-            return;
-        }
-
         ItemMeta meta = item.getItemMeta();
 
         if (!meta.hasDisplayName()) {
             return;
         }
 
-        if (!EventHelper.isPlayerHideItem(meta.getDisplayName(), this.main.getConfig().getString(
-            "item.name", "&bPlayerHide Stick") + "§g§c§u§v§r§r")) {
+        if (!EventHelper.isPlayerHideItem(meta.getDisplayName(), this.main)) {
             return;
         }
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            System.out.println("Action: " + e.getAction());
+            System.out.println(e.getAction() == Action.RIGHT_CLICK_AIR);
+            System.out.println(e.getAction() == Action.RIGHT_CLICK_BLOCK);
             if (main.getWorldGuardManager() != null && !main.getWorldGuardManager().checkApplyPlayerHide(player)) {
                 MessageManager.sendMessage(player, "toggle-self-region-denied");
                 return;
@@ -61,6 +64,11 @@ public class PlayerUseItemEvent implements Listener {
 
             PlayerState playerState = this.main.getPlayerManager().togglePlayer(player);
             if (playerState != null) {
+                // 1 tick delay as changing item in hand causes this event to fire again
+                // reference: https://www.spigotmc.org/threads/1-19-4-playerinteractevent-called-twice-when-right-clicking-a-block.601044/
+                Bukkit.getScheduler().runTaskLater(this.main, () -> {
+                    main.getPlayerManager().givePlayerItem(player, false);
+                }, 1L);
                 MessageManager.sendMessage(player, "toggle-self-success",
                     new String[]{"%player%", "%state%"},
                     new String[]{player.getName(),

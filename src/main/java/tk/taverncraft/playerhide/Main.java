@@ -10,16 +10,11 @@ import tk.taverncraft.playerhide.commands.CommandParser;
 import tk.taverncraft.playerhide.commands.CommandTabCompleter;
 import tk.taverncraft.playerhide.events.DependencyLoadEvent;
 import tk.taverncraft.playerhide.events.EventManager;
-import tk.taverncraft.playerhide.events.PlayerHopOffEvent;
-import tk.taverncraft.playerhide.events.PlayerHopOnEvent;
-import tk.taverncraft.playerhide.events.PlayerThrowItemEvent;
-import tk.taverncraft.playerhide.events.PlayerUseItemEvent;
 import tk.taverncraft.playerhide.player.PlayerManager;
 import tk.taverncraft.playerhide.utils.ConfigManager;
 import tk.taverncraft.playerhide.utils.PapiManager;
 import tk.taverncraft.playerhide.utils.UpdateChecker;
 import tk.taverncraft.playerhide.worldguard.WorldGuardManager;
-import tk.taverncraft.playerhide.worldguard.WorldGuardRegionHandler;
 
 /**
  * The plugin class.

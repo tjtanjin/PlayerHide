@@ -9,18 +9,25 @@ import java.util.UUID;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.Particle;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import tk.taverncraft.playerhide.Main;
 import tk.taverncraft.playerhide.utils.MessageManager;
+import tk.taverncraft.playerhide.utils.StringUtils;
 
 /**
  * In charge of handling players affected by player hide.
  */
 public class PlayerManager {
+    private final String exemptPerm = "phide.exempt";
     private Main main;
     private HashMap<UUID, PlayerState> playerStates = new HashMap<>();
     private List<UUID> exemptedPlayers = new ArrayList<>();
@@ -119,7 +126,8 @@ public class PlayerManager {
         for (Map.Entry<UUID, PlayerState> set : this.playerStates.entrySet()) {
             Player p = Bukkit.getPlayer(set.getKey());
             PlayerState playerState = set.getValue();
-            if (playerState == PlayerState.HIDDEN && !exemptedPlayers.contains(p.getUniqueId())) {
+            if (playerState == PlayerState.HIDDEN && !exemptedPlayers.contains(p.getUniqueId())
+                    && !player.hasPermission(exemptPerm)) {
                 p.hidePlayer(player);
             } else {
                 p.showPlayer(player);
@@ -135,7 +143,7 @@ public class PlayerManager {
     public void hidePlayers(Player player) {
         for (Map.Entry<UUID, PlayerState> set : this.playerStates.entrySet()) {
             Player p = Bukkit.getPlayer(set.getKey());
-            if (player != p) {
+            if (player != p && !p.hasPermission(exemptPerm)) {
                 player.hidePlayer(p);
             }
         }
@@ -250,6 +258,61 @@ public class PlayerManager {
      */
     public void removePlayerFromExemption(Player player) {
         exemptedPlayers.remove(player.getUniqueId());
+    }
+
+    /**
+     * Gives the playerhide item to specified player.
+     *
+     * @param player player to give playerhide item to
+     * @param isJoin boolean indicating if player just joined
+     */
+    public void givePlayerItem(Player player, boolean isJoin) {
+        boolean hasItemToggledOnDisabled = main.getConfig().getBoolean("item-toggled-on.disabled", false);
+        if (!isJoin && hasItemToggledOnDisabled) {
+            return;
+        }
+
+        String prefix = "item";
+        PlayerState playerState = playerStates.get(player.getUniqueId());
+        if (playerState == PlayerState.HIDDEN && !hasItemToggledOnDisabled) {
+            prefix = "item-toggled-on";
+        }
+
+        String materialName = this.main.getConfig().getString(prefix + ".material", "STICK");
+        Material material = Material.valueOf(materialName);
+        ItemStack item = new ItemStack(material);
+        boolean isEnchanted = this.main.getConfig().getBoolean(prefix + ".enchanted", false);
+
+        if (isEnchanted) {
+            item.addUnsafeEnchantment(Enchantment.LURE, 1);
+        }
+
+        final ItemMeta meta = item.getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        String displayName = this.main.getConfig().getString(prefix + ".name","&bPlayerHide Stick") + "§g§c§u§v§r§r";
+        meta.setDisplayName(StringUtils.formatStringColor(displayName));
+
+        List<String> lore = this.main.getConfig().getStringList(prefix + ".lore");
+        List<String> colouredLore = new ArrayList<>();
+        for (String line : lore) {
+            colouredLore.add(StringUtils.formatStringColor(line));
+        }
+
+        if (colouredLore.size() != 0) {
+            meta.setLore(colouredLore);
+        }
+
+        if (isEnchanted) {
+            try {
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            } catch (Exception ex) {
+                this.main.getLogger().info(ex.getMessage());
+            }
+        }
+
+        item.setItemMeta(meta);
+
+        player.getInventory().setItem(this.main.getConfig().getInt(prefix + ".slot", 0), item);
     }
 }
 

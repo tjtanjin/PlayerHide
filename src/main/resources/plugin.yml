@@ -4,7 +4,7 @@ main: tk.taverncraft.playerhide.Main
 author: tjtanjin - FrozenFever
 description: A simple plugin for hiding players
 api-version: 1.13
-softdepend: [WorldEdit, WorldGuard]
+softdepend: [WorldEdit, WorldGuard, PlaceholderAPI]
 commands:
   playerhide:
     description: Base command for the plugin
@@ -21,4 +21,7 @@ permissions:
     default: op
   phide.reload:
     description: Reload the plugin
+    default: op
+  phide.exempt:
+    description: Exempt a player from being hidden
     default: op

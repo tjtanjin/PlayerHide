@@ -4,10 +4,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.event.HandlerList;
 
 import tk.taverncraft.playerhide.Main;
-import tk.taverncraft.playerhide.events.PlayerHopOffEvent;
-import tk.taverncraft.playerhide.events.PlayerHopOnEvent;
-import tk.taverncraft.playerhide.events.PlayerThrowItemEvent;
-import tk.taverncraft.playerhide.events.PlayerUseItemEvent;
 import tk.taverncraft.playerhide.utils.MessageManager;
 import tk.taverncraft.playerhide.utils.ValidationManager;
 
