@@ -24,7 +24,7 @@ public class MessageManager {
         Set<String> messageKeysSet = lang.getConfigurationSection("").getKeys(false);
 
         for (String messageKey : messageKeysSet) {
-            messageKeysMap.put(messageKey, StringUtils.formatStringColor(lang.get(messageKey).toString() + " "));
+            messageKeysMap.put(messageKey, StringUtils.formatStringColor(lang.get(messageKey).toString()));
         }
     }
 

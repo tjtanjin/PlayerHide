@@ -54,9 +54,6 @@ public class PlayerUseItemEvent implements Listener {
         }
 
         if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            System.out.println("Action: " + e.getAction());
-            System.out.println(e.getAction() == Action.RIGHT_CLICK_AIR);
-            System.out.println(e.getAction() == Action.RIGHT_CLICK_BLOCK);
             if (main.getWorldGuardManager() != null && !main.getWorldGuardManager().checkApplyPlayerHide(player)) {
                 MessageManager.sendMessage(player, "toggle-self-region-denied");
                 return;

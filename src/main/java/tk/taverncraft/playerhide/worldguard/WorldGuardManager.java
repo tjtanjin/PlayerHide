@@ -53,6 +53,10 @@ public class WorldGuardManager {
         boolean applyPlayerHide = true;
 
         for (ProtectedRegion region : entered) {
+            if (region == null) {
+                continue;
+            }
+
             if (region.getFlag(WorldGuardManager.APPLY_PLAYERHIDE) == null) {
                 continue;
             }
