@@ -28,6 +28,9 @@ item-on-join: true
 # allow players to drop the item
 allow-drop: false
 
+# allow players to move the item from the slot
+allow-move: false
+
 # material, name, slot of item and whether item should be enchanted
 item:
   name: "&bPlayerHide Stick"

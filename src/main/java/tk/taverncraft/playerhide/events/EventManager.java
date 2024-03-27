@@ -23,6 +23,7 @@ public class EventManager {
         listeners.add(new PlayerHopOffEvent(main));
         listeners.add(new PlayerThrowItemEvent(main));
         listeners.add(new PlayerUseItemEvent(main));
+        listeners.add(new PlayerMoveItemEvent(main));
 
         for (Listener listener : listeners) {
             main.getServer().getPluginManager().registerEvents(listener, main);

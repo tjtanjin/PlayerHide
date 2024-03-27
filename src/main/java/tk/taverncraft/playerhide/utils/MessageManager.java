@@ -12,7 +12,7 @@ import org.bukkit.configuration.file.FileConfiguration;
  */
 public class MessageManager {
     private static final HashMap<String, String> messageKeysMap = new HashMap<>();
-    private static final ArrayList<String> completeHelpBoard = new ArrayList<>();
+    private static ArrayList<String> completeHelpBoard;
 
     /**
      * Sets the messages to use.
@@ -81,22 +81,27 @@ public class MessageManager {
     private static void setUpHelpBoard() {
         int linesPerPage = 10;
 
+        completeHelpBoard = new ArrayList<>();
         String header = getPrefixedMessage("help-header");
         String footer = messageKeysMap.get("help-footer");
         String[] messageBody = messageKeysMap.get("help-body").split("\n", -1);
-        StringBuilder message = new StringBuilder(header + "\n");
+        StringBuilder message = new StringBuilder();
         int lineNum = 1;
         int currentPage = 1;
         for (String body : messageBody) {
+            if (lineNum == 1) {
+                message = new StringBuilder(header + "\n");
+            }
             message.append(body).append("\n");
             if (lineNum % linesPerPage == 0) {
                 currentPage++;
+                lineNum = 0;
                 message = new StringBuilder(message.append(footer).append("\n").toString().replaceAll("%page%", String.valueOf(currentPage)));
                 completeHelpBoard.add(message.toString());
-                message = new StringBuilder(header + "\n");
             }
             lineNum++;
         }
+        completeHelpBoard.add(message.toString());
     }
 
     /**
@@ -106,10 +111,11 @@ public class MessageManager {
      * @param pageNum page number to view
      */
     public static void showHelpBoard(CommandSender sender, int pageNum) {
+        int index = pageNum - 1;
         if (pageNum > completeHelpBoard.size()) {
             sender.sendMessage(completeHelpBoard.get(completeHelpBoard.size() - 1));
         } else {
-            sender.sendMessage(completeHelpBoard.get(pageNum));
+            sender.sendMessage(completeHelpBoard.get(index));
         }
     }
 }
