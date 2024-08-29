@@ -65,13 +65,18 @@ public class PlayerMoveItemEvent implements Listener {
      * @return true if event has to be cancelled, false otherwise
      */
     private boolean checkInventoryEvent(InventoryAction action, InventoryClickEvent e) {
-        return (action == InventoryAction.PICKUP_ONE || action == InventoryAction.DROP_ALL_SLOT
-            || action == InventoryAction.PICKUP_SOME || action == InventoryAction.PICKUP_HALF
-            || action == InventoryAction.PICKUP_ALL || action == InventoryAction.DROP_ONE_SLOT
-            || action == InventoryAction.MOVE_TO_OTHER_INVENTORY
-            || action == InventoryAction.CLONE_STACK || action == InventoryAction.HOTBAR_SWAP
-            || action == InventoryAction.SWAP_WITH_CURSOR)
-            || action == InventoryAction.DROP_ONE_CURSOR || action == InventoryAction.DROP_ALL_CURSOR
-            || e.isShiftClick();
+        return action == InventoryAction.PICKUP_ONE ||
+            action == InventoryAction.DROP_ALL_SLOT ||
+            action == InventoryAction.PICKUP_SOME ||
+            action == InventoryAction.PICKUP_HALF ||
+            action == InventoryAction.PICKUP_ALL ||
+            action == InventoryAction.DROP_ONE_SLOT ||
+            action == InventoryAction.MOVE_TO_OTHER_INVENTORY ||
+            action == InventoryAction.CLONE_STACK ||
+            action == InventoryAction.HOTBAR_SWAP ||
+            action == InventoryAction.SWAP_WITH_CURSOR ||
+            action == InventoryAction.DROP_ONE_CURSOR ||
+            action == InventoryAction.DROP_ALL_CURSOR ||
+            e.isShiftClick();
     }
 }
